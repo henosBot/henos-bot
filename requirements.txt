@@ -1,2 +1,3 @@
 enhanced-dpy[voice]
 google-cloud-firestore
+python_dotenv
