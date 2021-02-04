@@ -120,7 +120,7 @@ class henosBotRewrite(commands.AutoShardedBot):
             if xp+1 >= 50:
                 db.set(message.author, 'xp', 0)
                 db.save(message.author, 'level', 1)
-                if not db.ignored(message.guild):
+                if not db.ignored(message.guild, 'lvl_msgs'):
                     msg = await message.channel.send(
                         f"Well done {message.author.mention}!! You are now level {level+1}"
                     )
