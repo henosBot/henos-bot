@@ -1,6 +1,6 @@
 import os
 
-token = 'NzgyNzE3Nzg5MjgyNjMxNzIw.X8QQvw.SgTbnkZVE759hMmdJaBw8JwLHmY'
+token = os.get_env('TOKEN')
 
 import discord
 from discord.ext import commands
