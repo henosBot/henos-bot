@@ -5,6 +5,7 @@ import asyncio
 import datetime
 import hcolours
 import henostools
+import traceback
 
 from tools.database import db
 
@@ -85,3 +86,47 @@ class henosBotRewrite(commands.AutoShardedBot):
     
     async def on_guild_remove(self, guild):
         print(f'I just got removed from {guild.name} :)\nIf you want to contact the owner, here is their name and id:\n{guild.owner} ({guild.owner.id})')
+    
+    async def on_command_error(self, ctx, error):
+        if not isinstance(error, commands.CommandOnCooldown) and not isinstance(
+                error, commands.CommandNotFound) and not isinstance(error, commands.MissingRequiredArgument) and not isinstance(error, commands.CheckFailure):
+            embed = discord.Embed(
+                title='Oh no!',
+                description=
+                f'There was a error with the {ctx.command.name} command\n\nError: {error}')
+            await ctx.send(embed=embed)
+            await ctx.send(f'Traceback: {traceback.format_exc()}')
+        elif isinstance(error, commands.CommandOnCooldown):
+            await ctx.send(
+                f'This command is on a cooldown. Please wait {round(error.retry_after)} seconds'
+            )
+        elif isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send(f'You are missing the required argument `{error.param.name}`. Please try again with it.')
+        elif isinstance(error, commands.CheckFailure):
+            await ctx.send(error)
+        else:
+            if not isinstance(error, commands.CommandNotFound):
+                await ctx.send(error)
+    
+    async def on_message(self, message):
+        db.open_account(message.author)
+        if message.guild == None:
+            if message.author != self.user:
+                me = self.get_user(self.owner_id)
+                await me.send(f'hey henos, I just got sent a message from {message.author.mention}! Here it is:\n{message.content}')
+        else:
+            xp = db.get(message.author, 'xp')
+            level = db.get(message.author, 'level')
+            if xp+1 >= 50:
+                db.set(message.author, 'xp', 0)
+                db.save(message.author, 'level', 1)
+                if not db.ignored(message.guild):
+                    msg = await message.channel.send(
+                        f"Well done {message.author.mention}!! You are now level {level+1}"
+                    )
+                    await henostools.sleep('10s')
+                    try:
+                        await msg.delete()
+                    except Exception:
+                        pass
+        await self.process_commands(message)
