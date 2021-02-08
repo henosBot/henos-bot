@@ -48,4 +48,6 @@ class database:
     
     @classmethod
     async def get(self, user, type):
-        return self.db.collection('user').document(str(user.id)).get().to_dict()[type]
+        user_db = self.db.collection('user').document(str(user.id))
+        ref = user_db.get().to_dict()
+        return ref[type]
