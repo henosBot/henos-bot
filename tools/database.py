@@ -1,8 +1,7 @@
 from google.cloud import firestore
 
-class db:
-    def __init__(self):
-        self.db = firestore.Client.from_service_account_json('firebase.json')
+class database:
+    db = firestore.Client.from_service_account_json('tools/firebase.json')
     
     @classmethod
     async def open_account(self, user):
@@ -42,7 +41,11 @@ class db:
         })
     
     @classmethod
-    async def ignored(self, guild, type):
+    def ignored(self, guild, type):
         guild_db = self.db.collection('guilds').document(str(guild.id))
         ref = guild_db.get().to_dict()
         return ref[type]
+    
+    @classmethod
+    async def get(self, user, type):
+        return self.db.collection('user').document(str(user.id)).get().to_dict()[type]

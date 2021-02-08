@@ -9,7 +9,7 @@ import traceback
 import random
 import logging
 
-from tools.database import db
+from tools.database import database as db
 
 loop = asyncio.get_event_loop()
 runtime = datetime.datetime.now()
@@ -87,7 +87,8 @@ class henosBotRewrite(commands.AutoShardedBot):
             ''')
     
     async def on_guild_remove(self, guild):
-        print(f'I just got removed from {guild.name} :)\nIf you want to contact the owner, here is their name and id:\n{guild.owner} ({guild.owner.id})')
+        me = self.get_user(self.owner_id)
+        await me.send(f'I just got removed from {guild.name} :)\nIf you want to contact the owner, here is their name and id:\n{guild.owner} ({guild.owner.id})')
     
     async def on_command_error(self, ctx, error):
         if not isinstance(error, commands.CommandOnCooldown) and not isinstance(
@@ -115,17 +116,17 @@ class henosBotRewrite(commands.AutoShardedBot):
         print('Traceback:', logging.warning(traceback.format_exc()))
     
     async def on_message(self, message):
-        db.open_account(message.author)
+        await db.open_account(message.author)
         if message.guild == None:
             if message.author != self.user:
                 me = self.get_user(self.owner_id)
                 await me.send(f'hey henos, I just got sent a message from {message.author.mention}! Here it is:\n{message.content}')
         else:
-            xp = db.get(message.author, 'xp')
-            level = db.get(message.author, 'level')
+            xp = await db.get(message.author, 'xp')
+            level = await db.get(message.author, 'level')
             if xp+1 >= 50:
-                db.set(message.author, 'xp', 0)
-                db.save(message.author, 'level', 1)
+                await db.set(message.author, 'xp', 0)
+                await db.save(message.author, 'level', 1)
                 if not db.ignored(message.guild, 'lvl_msgs'):
                     msg = await message.channel.send(
                         f"Well done {message.author.mention}!! You are now level {level+1}"
