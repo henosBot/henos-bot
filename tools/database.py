@@ -21,42 +21,9 @@ class db:
     @classmethod
     async def set(self, user, type, amount):
         user_db = self.db.collection('users').document(str(user.id))
-        ref = user_db.get().to_dict()
-        wallet = ref['wallet']
-        bank = ref['bank']
-        xp = ref['xp']
-        level = ref['level']
-        if type == 'wallet':
-            dicty = {
-                'wallet': amount,
-                'bank': bank,
-                'xp': xp,
-                'level': level
-            }
-        elif type == 'bank':
-            dicty = {
-                'wallet': wallet,
-                'bank': amount,
-                'xp': xp,
-                'level': level
-            }
-        elif type == 'xp':
-            dicty = {
-                'wallet': wallet,
-                'bank': bank,
-                'xp': amount,
-                'level': level
-            }
-        elif type == 'level':
-            dicty = {
-                'wallet': wallet,
-                'bank': bank,
-                'xp': xp,
-                'level': amount
-            }
-        else:
-            dicty = None
-        user_db.set(dicty)
+        user_db.update({
+            type: amount
+        })
     
     @classmethod
     async def save(self, user, type, amount):
@@ -76,4 +43,6 @@ class db:
     
     @classmethod
     async def ignored(self, guild, type):
-        return
+        guild_db = self.db.collection('guilds').document(str(guild.id))
+        ref = guild_db.get().to_dict()
+        return ref[type]
