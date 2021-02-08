@@ -197,5 +197,3 @@ class henosBotRewrite(commands.AutoShardedBot):
                     )
                 except Exception:
                     pass
-    
-
