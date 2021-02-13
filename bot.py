@@ -5,17 +5,15 @@ import jishaku
 dotenv.load_dotenv()
 token = os.getenv('TOKEN')
 
-# import discord
-# from discord.ext import commands
+import discord
 from tools.henosBotRewrite import henosBotRewrite
-# from tools.database import database as db
-# from discord_slash import SlashCommand
+from discord_slash import SlashCommand
 
 import time
 
 bot = henosBotRewrite()
-# slash = SlashCommand(bot, auto_register=True)
-# bot.set_embed_color(discord.Colour.red())
+bot.slash = SlashCommand(bot, auto_register=True)
+bot.set_embed_color(discord.Colour.red())
 bot.owner_id = 717633235789807657
 
 # bot.remove_command('help')
@@ -38,14 +36,6 @@ bot.owner_id = 717633235789807657
 
 # time.sleep(5)
 # os.system('clear')
-
-# @slash.slash(guild_ids=[guild.id for guild in bot.guilds])
-# async def test(ctx):
-#     await ctx.send(content='hello')
-
-# @slash.slash(guild_ids=[guild.id for guild in bot.guilds])
-# async def endmysuffering(ctx):
-#     await ctx.send(content=':gun:')
 
 bot.load_extension('jishaku')
 

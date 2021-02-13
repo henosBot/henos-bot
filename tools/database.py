@@ -1,4 +1,5 @@
 from google.cloud import firestore
+from tools.amounts import amounts
 
 class database:
     db = firestore.Client.from_service_account_json('tools/firebase.json')
@@ -48,6 +49,27 @@ class database:
     
     @classmethod
     async def get(self, user, type):
-        user_db = self.db.collection('user').document(str(user.id))
+        user_db = self.db.collection('users').document(str(user.id))
         ref = user_db.get().to_dict()
         return ref[type]
+    
+    @classmethod
+    async def buy_item(self, user, item):
+        item_db = self.db.collection('users').document(str(user.id))
+        if not item_db.get().exists:
+            item_db.create({
+                'cookie': 0,
+                'chocolate': 0,
+                'coin': 0,
+                'rare coin': 0,
+                'medal': 0,
+                'rare medal': 0,
+                'trophy': 0,
+                'rare trophy': 0,
+                'ultra collectable thingy': 0,
+            })
+        await self.remove(user, 'wallet', amounts(item))
+        ref = item_db.get().to_dict()
+        item_db.update({
+            item: ref[item] + 1
+        })

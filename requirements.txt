@@ -2,3 +2,6 @@ enhanced-dpy[voice]
 google-cloud-firestore
 python_dotenv
 discord-py-slash-command
+henostools
+hcolours
+jishaku
