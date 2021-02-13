@@ -211,3 +211,6 @@ class Economy(commands.Cog):
             await ctx.send(f'Gave you the colour {colour}\nEnjoy!!')
         else:
             await ctx.send("You don't have enough money to buy this :(")
+
+def setup(bot):
+    bot.add_cog(Economy(bot))
