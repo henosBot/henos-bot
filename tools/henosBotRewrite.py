@@ -139,7 +139,6 @@ class henosBotRewrite(commands.AutoShardedBot):
         await self.process_commands(message)
     
     async def on_command_completion(self, ctx):
-        await db.open_account(ctx.author.id)
         chance = random.randrange(0, 40)
         ttt = [
             'hi, im dumb', 'jkdvbekjcnejcbne', 'blah blah blah', 'blabity blab',

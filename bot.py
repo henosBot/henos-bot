@@ -12,7 +12,7 @@ from discord_slash import SlashCommand
 import time
 
 bot = henosBotRewrite()
-bot.slash = SlashCommand(bot, auto_register=True)
+bot.slash = SlashCommand(bot, sync_commands=True)
 bot.set_embed_color(discord.Colour.red())
 bot.owner_id = 717633235789807657
 
@@ -38,5 +38,5 @@ bot.owner_id = 717633235789807657
 # os.system('clear')
 
 bot.load_extension('jishaku')
-
+bot.load_extension('cogs.economy')
 bot.run(token)

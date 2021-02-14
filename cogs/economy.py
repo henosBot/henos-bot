@@ -2,6 +2,8 @@ import discord
 from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
 from tools.database import database as db
+from discord_slash import SlashCommand, cog_ext
+from discord_slash.utils import manage_commands
 import tools.amounts
 
 import typing
@@ -11,17 +13,33 @@ import henostools
 class Economy(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.bot.slash.get_cog_commands(self)
+
+    def cog_unload(self):
+        self.bot.slash.remove_cog_commands(self)
     
-    @commands.command(alisases=['bal'])
-    async def balance(self, ctx, user : typing.Union[discord.Member, discord.User]):
+    @cog_ext.cog_slash(
+        name='balance',
+        description='Sees your, or another user\'s balance',
+        guild_ids=[740531414008856596],
+        options=[
+            manage_commands.create_option(
+            name = "user",
+            description = "the user you want to see the balance of",
+            option_type = 6,
+            required = False
+        )]
+    )
+    async def balance(self, ctx, user : typing.Union[discord.Member, discord.User] = None):
+        await ctx.respond()
         user = user or ctx.author
-        wallet = db.get(user, 'wallet')
-        bank = db.get(user, 'bank')
+        wallet = await db.get(user, 'wallet')
+        bank = await db.get(user, 'bank')
         embed = discord.Embed(
             title=f'{user.mention}\'s balance',
             description=f'__Wallet:__ {wallet}\n__Bank:__ {bank}\n__Total:__ {wallet + bank}'
         )
-        await ctx.send(embed=embed)
+        await ctx.send(embeds=[embed])
     
     @commands.command()
     @commands.cooldown(1, 60, BucketType.user)
