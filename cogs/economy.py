@@ -35,7 +35,7 @@ class Economy(commands.Cog):
         wallet = await db.get(user, 'wallet')
         bank = await db.get(user, 'bank')
         embed = discord.Embed(
-            title=f'{user.mention}\'s balance',
+            title=f'{user}\'s balance',
             description=f'__Wallet:__ {wallet}\n__Bank:__ {bank}\n__Total:__ {wallet + bank}'
         )
         await ctx.send(embeds=[embed])
