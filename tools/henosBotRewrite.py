@@ -117,6 +117,7 @@ class henosBotRewrite(commands.AutoShardedBot):
     
     async def on_message(self, message):
         await db.open_account(message.author)
+        await db.open_guild_account(message.guild)
         if message.guild == None:
             if message.author != self.user:
                 me = self.get_user(self.owner_id)

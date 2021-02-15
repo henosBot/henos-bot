@@ -19,6 +19,23 @@ class database:
             return True
     
     @classmethod
+    async def open_guild_account(self, guild):
+        guild_db = self.db.collection('users').document(str(guild.id))
+        if not guild_db.get().exists:
+            guild_db.create({
+                'bad_word_checker': True,
+                'ban_infringments': 3,
+                'log_channel': None,
+                'warn_infringments': 1,
+                'warn_role': None,
+                'lvl_ msgs': True ,
+                'welcome_msgs': True
+            })
+            return False
+        else:
+            return True
+    
+    @classmethod
     async def set(self, user, type, amount):
         user_db = self.db.collection('users').document(str(user.id))
         user_db.update({
