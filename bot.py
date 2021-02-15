@@ -2,6 +2,8 @@ import os
 import dotenv
 import jishaku
 
+os.system('pip install -r requirements.txt')
+
 dotenv.load_dotenv()
 token = os.getenv('TOKEN')
 
