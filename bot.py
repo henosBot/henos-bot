@@ -1,11 +1,11 @@
 import os
 os.system('pip install -r requirements.txt')
 
-import dotenv
+import toml
 import jishaku
 
-dotenv.load_dotenv()
-token = os.getenv('TOKEN')
+toml = toml.load('secrets.toml')
+token = toml['TOKEN']
 
 import discord
 from tools.henosBotRewrite import henosBotRewrite
