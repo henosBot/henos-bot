@@ -1,7 +1,8 @@
 enhanced-dpy[voice]
 google-cloud-firestore
-python_dotenv
-git+https://github.com/eunwoo1104/discord-py-slash-command
 henostools
 hcolours
 jishaku
+python_dotenv
+git+https://github.com/eunwoo1104/discord-py-slash-command
+git+https://github.com/Rapptz/discord-ext-menus

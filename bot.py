@@ -1,8 +1,8 @@
 import os
+os.system('pip install -r requirements.txt')
+
 import dotenv
 import jishaku
-
-os.system('pip install -r requirements.txt')
 
 dotenv.load_dotenv()
 token = os.getenv('TOKEN')
@@ -15,7 +15,7 @@ import time
 
 bot = henosBotRewrite()
 bot.slash = SlashCommand(bot, sync_commands=True)
-bot.set_embed_color(discord.Colour.red())
+# bot.set_embed_color(discord.Colour.red())
 bot.owner_id = 717633235789807657
 
 # bot.remove_command('help')
