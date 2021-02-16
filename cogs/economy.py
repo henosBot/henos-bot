@@ -40,21 +40,37 @@ class Economy(commands.Cog):
         )
         await ctx.send(embeds=[embed])
     
-    @commands.command()
-    @commands.cooldown(1, 60, BucketType.user)
+    @cog_ext.cog_slash(
+        name='beg',
+        description='begs for money',
+        guild_ids=[740531414008856596],
+    )
     async def beg(self, ctx):
         amount = random.randrange(100, 500)
         await ctx.send(f'Someone gave you {amount} dollars')
         await db.save(ctx.author, 'wallet', amount)
     
-    @commands.command()
-    @commands.cooldown(1, 86400, BucketType.user)
+    @cog_ext.cog_slash(
+        name='daily',
+        description='get your daily dollars',
+        guild_ids=[740531414008856596],
+    )
     async def daily(self, ctx):
         amount = 3000
         await ctx.send(f'You got {amount} dollars')
         await db.save(ctx.author, 'wallet', amount)
 
-    @commands.command(aliases=['dep'])
+    @cog_ext.cog_slash(
+        name='deposit',
+        description='deposits some money',
+        guild_ids=[740531414008856596],
+        options=manage_commands.create_option(
+            name = "amount",
+            description = "the amount you want to deposit",
+            option_type = 3,
+            required = False
+        )
+    )
     async def deposit(self, ctx, amount):
         wallet = await db.get(ctx.author, 'wallet')
         bank = await db.get(ctx.author, 'bank')
@@ -66,7 +82,17 @@ class Economy(commands.Cog):
         else:
             await ctx.send('You do not have enough money in your wallet')
     
-    @commands.command(aliases=['with'])
+    @cog_ext.cog_slash(
+        name='withdraw',
+        description='withdraws some money',
+        guild_ids=[740531414008856596],
+        options=manage_commands.create_option(
+            name = "amount",
+            description = "the amount you want to withdraw",
+            option_type = 3,
+            required = False
+        )
+    )
     async def withdraw(self, ctx, amount):
         wallet = await db.get(ctx.author, 'wallet')
         bank = await db.get(ctx.author, 'bank')
@@ -78,8 +104,11 @@ class Economy(commands.Cog):
         else:
             await ctx.send('You do not have enough money in your bank')
     
-    @commands.command()
-    @commands.cooldown(1, 3600, BucketType.user)
+    @cog_ext.cog_slash(
+        name='work',
+        description='work for money',
+        guild_ids=[740531414008856596],
+    )
     async def work(self, ctx):
         jobs = [
             'Janitor', 'Computer Programmer', 'Landscape Architect', 'Referee',
@@ -92,20 +121,25 @@ class Economy(commands.Cog):
         await db.save(ctx.author, 'wallet', amount)
         embed = discord.Embed(
             title=f'{ctx.author.name} worked!',
-            description=
-            f'You worked as a {random.choice(jobs)} and got {amount} dollars')
+            description=f'You worked as a {random.choice(jobs)} and got {amount} dollars')
         embed.set_footer(text='Well done!! 👏')
         await ctx.send(embed=embed)
     
-    @commands.command(aliases=['helping_hand'])
-    @commands.cooldown(1, 60, BucketType.user)
+    @cog_ext.cog_slash(
+        name='hh',
+        description='give someone some help',
+        guild_ids=[740531414008856596],
+    )
     async def hh(self, ctx):
         amount = random.randrange(10, 500)
         await ctx.send(f'You helped someone and got {amount} dollars in return')
         await db.save(ctx.author, 'wallet', amount)
 
-    @commands.command()
-    @commands.cooldown(1, 60, BucketType.user)
+    @cog_ext.cog_slash(
+        name='search',
+        description='search for money',
+        guild_ids=[740531414008856596],
+    )
     async def search(self, ctx):
         c1 = ['bed', 'discord', 'tree', 'street']
         c2 = ['car', 'bed', 'wallet', 'pantry',]
@@ -124,8 +158,11 @@ class Economy(commands.Cog):
         else:
             await ctx.send('thats not a valid option')
 
-    @commands.command()
-    @commands.cooldown(1, 3600, BucketType.user)
+    @cog_ext.cog_slash(
+        name='gamble',
+        description='gamble some money',
+        guild_ids=[740531414008856596],
+    )
     async def gamble(self, ctx, amount: int):
         wallet = await db.get(ctx.author, 'wallet')
         if int(wallet) >= amount:
@@ -151,8 +188,11 @@ class Economy(commands.Cog):
         else:
             await ctx.send("You don't have enough money. Please try again")
     
-    @commands.command()
-    @commands.cooldown(1, 3600, BucketType.user)
+    @cog_ext.cog_slash(
+        name='lottery',
+        description='enter the lottery for a chance to win over 2 million dollars',
+        guild_ids=[740531414008856596],
+    )
     async def lottery(self, ctx):
         await ctx.send('Are you sure you want to enter the lottery??\nEnter `yes` or `no`')
 
@@ -174,7 +214,11 @@ class Economy(commands.Cog):
         else:
             await ctx.send('Goodbye')
     
-    @commands.command(aliases=['store'])
+    @cog_ext.cog_slash(
+        name='shop',
+        description='',
+        guild_ids=[740531414008856596],
+    )
     async def shop(self, ctx):
         colours = discord.Embed(
             title='Colours',

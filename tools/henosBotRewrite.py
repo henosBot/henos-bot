@@ -28,6 +28,14 @@ class henosBotRewrite(commands.AutoShardedBot):
                 name='Bot being rewrited'
                 )
         )
+        self.blacklisted = [
+            110373943822540800,
+            446425626988249089,
+            645357850893221918,
+            450100127256936458,
+            264445053596991498,
+            374071874222686211
+        ]
     
     async def on_ready(self):
         print(f'{self.user} ({self.user.id}) is online!')
@@ -116,27 +124,28 @@ class henosBotRewrite(commands.AutoShardedBot):
         print('Traceback:', logging.warning(traceback.format_exc()))
     
     async def on_message(self, message):
-        await db.open_account(message.author)
-        await db.open_guild_account(message.guild)
-        if message.guild == None:
-            if message.author != self.user:
-                me = self.get_user(self.owner_id)
-                await me.send(f'hey henos, I just got sent a message from {message.author.mention}! Here it is:\n{message.content}')
-        else:
-            xp = await db.get(message.author, 'xp')
-            level = await db.get(message.author, 'level')
-            if xp+1 >= 50:
-                await db.set(message.author, 'xp', 0)
-                await db.save(message.author, 'level', 1)
-                if not db.ignored(message.guild, 'lvl_msgs'):
-                    msg = await message.channel.send(
-                        f"Well done {message.author.mention}!! You are now level {level+1}"
-                    )
-                    await henostools.sleep('10s')
-                    try:
-                        await msg.delete()
-                    except Exception:
-                        pass
+        if message.guild.id not in self.blacklisted:
+            await db.open_account(message.author)
+            await db.open_guild_account(message.guild)
+            if message.guild == None:
+                if message.author != self.user:
+                    me = self.get_user(self.owner_id)
+                    await me.send(f'hey henos, I just got sent a message from {message.author.mention}! Here it is:\n{message.content}')
+            else:
+                xp = await db.get(message.author, 'xp')
+                level = await db.get(message.author, 'level')
+                if xp+1 >= 50:
+                    await db.set(message.author, 'xp', 0)
+                    await db.save(message.author, 'level', 1)
+                    if not db.ignored(message.guild, 'lvl_msgs'):
+                        msg = await message.channel.send(
+                            f"Well done {message.author.mention}!! You are now level {level+1}"
+                        )
+                        await henostools.sleep('10s')
+                        try:
+                            await msg.delete()
+                        except Exception:
+                            pass
         await self.process_commands(message)
     
     async def on_command_completion(self, ctx):
