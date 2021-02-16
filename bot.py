@@ -24,7 +24,7 @@ botextentions = [
     'cogs.rank',
     'cogs.utils',
     # 'cogs.tsos',
-    # 'cogs.music',
+    'cogs.music',
     # 'cogs.fun',
     # 'cogs.moderation',
     # 'cogs.help',

@@ -7,3 +7,4 @@ python_dotenv
 git+https://github.com/eunwoo1104/discord-py-slash-command
 git+https://github.com/Rapptz/discord-ext-menus
 toml
+youtube_dl
