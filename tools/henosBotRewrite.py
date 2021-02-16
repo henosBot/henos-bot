@@ -40,6 +40,12 @@ class henosBotRewrite(commands.AutoShardedBot):
     
     async def on_ready(self):
         print(f'{self.user} ({self.user.id}) is online!')
+        # for user in db.db.collection('users').steam():
+        #     if not self.get_user(user):
+        #         print('delete')
+        #         user.get().delete()
+        #     else:
+        #         print('keep')
         startuptime = datetime.datetime.now()
         self.startuptime = startuptime - runtime
         print(f'Startup time is {self.startuptime.seconds} seconds')

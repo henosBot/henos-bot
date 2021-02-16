@@ -64,12 +64,12 @@ class Economy(commands.Cog):
         name='deposit',
         description='deposits some money',
         guild_ids=[740531414008856596],
-        options=manage_commands.create_option(
+        options=[manage_commands.create_option(
             name = "amount",
             description = "the amount you want to deposit",
             option_type = 3,
             required = False
-        )
+        )]
     )
     async def deposit(self, ctx, amount):
         wallet = await db.get(ctx.author, 'wallet')
@@ -86,12 +86,12 @@ class Economy(commands.Cog):
         name='withdraw',
         description='withdraws some money',
         guild_ids=[740531414008856596],
-        options=manage_commands.create_option(
+        options=[manage_commands.create_option(
             name = "amount",
             description = "the amount you want to withdraw",
             option_type = 3,
             required = False
-        )
+        )]
     )
     async def withdraw(self, ctx, amount):
         wallet = await db.get(ctx.author, 'wallet')
