@@ -188,23 +188,25 @@ class henosBotRewrite(commands.AutoShardedBot):
             await ctx.send('Too bad :(, nothing for you')
     
     async def on_member_join(self, member):
-        channel = member.guild.system_channel
-        if not db.ignored(member.guild, 'welcome_msgs'):
-            if not member.bot:
-                try:
-                    await channel.send(
-                        f'Hi {member.name}, welcome to {member.guild.name}!, use `hb: help` to get a list of the commands'
-                    )
-                except Exception:
-                    pass
+        if member.guild.id not in self.blacklisted:
+            channel = member.guild.system_channel
+            if not db.ignored(member.guild, 'welcome_msgs'):
+                if not member.bot:
+                    try:
+                        await channel.send(
+                            f'Hi {member.name}, welcome to {member.guild.name}!, use `hb: help` to get a list of the commands'
+                        )
+                    except Exception:
+                        pass
 
     async def on_member_remove(self, member):
-        channel = member.guild.system_channel
-        if not db.ignored(member.guild, 'welcome_msgs'):
-            if not member.bot:
-                try:
-                    await channel.send(
-                        f'Awww, {member} just left {member.guild.name} :('
-                    )
-                except Exception:
-                    pass
+        if member.guild.id not in self.blacklisted:
+            channel = member.guild.system_channel
+            if not db.ignored(member.guild, 'welcome_msgs'):
+                if not member.bot:
+                    try:
+                        await channel.send(
+                            f'Awww, {member} just left {member.guild.name} :('
+                        )
+                    except Exception:
+                        pass
