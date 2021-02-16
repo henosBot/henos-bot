@@ -110,7 +110,7 @@ class Utilitys(commands.Cog):
             manage_commands.create_option(
             name = "type",
             description = "the type of thing u want to disable",
-            option_type = 6,
+            option_type = 3,
             required = True
         )]
     )
@@ -127,7 +127,7 @@ class Utilitys(commands.Cog):
             manage_commands.create_option(
             name = "type",
             description = "the type of thing u want to enable",
-            option_type = 6,
+            option_type = 3,
             required = True,
             choices=[
                 manage_commands.create_choice(

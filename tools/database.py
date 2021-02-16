@@ -22,7 +22,7 @@ class database:
     
     @classmethod
     async def open_guild_account(self, guild):
-        guild_db = self.db_guilds.collection('guilds').document(str(guild.id))
+        guild_db = self.db_guild.collection('guilds').document(str(guild.id))
         if not guild_db.get().exists:
             guild_db.create({
                 'bad_word_checker': True,
@@ -39,7 +39,7 @@ class database:
     
     @classmethod
     async def guild_set(self, guild, type, value):
-        guild_db = self.db_user.collection('guilds').document(str(guild.id))
+        guild_db = self.db_guild.collection('guilds').document(str(guild.id))
         guild_db.update({
             type: value
         })
