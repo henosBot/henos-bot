@@ -168,8 +168,8 @@ class Utilitys(commands.Cog):
         await ctx.send(content=f"Roles in **{ctx.guild.name}**", file=discord.File(data, filename=f"{timetext('Roles')}"))
 
     @cog_ext.cog_slash(
-        name='',
-        description='',
+        name='joinedat',
+        description='show when a user joined ur server',
         guild_ids=[740531414008856596],
         options=[
             manage_commands.create_option(
@@ -188,7 +188,11 @@ class Utilitys(commands.Cog):
         embed.description = f'**{user}** joined **{ctx.guild.name}**\n{date(user.joined_at)}'
         await ctx.send(embed=embed)
 
-    @commands.command()
+    @cog_ext.cog_slash(
+        name='mods',
+        description='shows the mods that are currently online',
+        guild_ids=[740531414008856596]
+    )
     @commands.guild_only()
     async def mods(self, ctx):
         message = ""
