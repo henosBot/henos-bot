@@ -34,7 +34,8 @@ class henosBotRewrite(commands.AutoShardedBot):
             645357850893221918,
             450100127256936458,
             264445053596991498,
-            374071874222686211
+            374071874222686211,
+            336642139381301249
         ]
     
     async def on_ready(self):

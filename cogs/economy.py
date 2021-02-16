@@ -216,7 +216,7 @@ class Economy(commands.Cog):
     
     @cog_ext.cog_slash(
         name='shop',
-        description='',
+        description='look at the contents of the shop',
         guild_ids=[740531414008856596],
     )
     async def shop(self, ctx):
