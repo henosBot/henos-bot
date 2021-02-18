@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord_slash import SlashCommand
 
 import asyncio
 import datetime
@@ -126,6 +127,9 @@ class henosBotRewrite(commands.AutoShardedBot):
             if not isinstance(error, commands.CommandNotFound):
                 await ctx.send(error)
     
+    async def on_slash_command_error(ctx, ex):
+        await ctx.send(ex)
+    
     async def on_error(self, event, *args, **kwargs):
         print(f'Something went wrong!\nThe error happened in {event} event\nDetails: {args}\n{kwargs}')
         print('Traceback:', logging.warning(traceback.format_exc()))
@@ -156,6 +160,44 @@ class henosBotRewrite(commands.AutoShardedBot):
         await self.process_commands(message)
     
     async def on_command_completion(self, ctx):
+        chance = random.randrange(0, 40)
+        ttt = [
+            'hi, im dumb', 'jkdvbekjcnejcbne', 'blah blah blah', 'blabity blab',
+            'henos bot is THE BEST', 'kjdcijnr', 'kcnec ekcjeovcie ecojecioe',
+            'keceivcjhrnvi', '129048907393', '1234567890', '0987654321',
+            '(*%&^%%^*&*%)'
+        ]
+        tttc = random.choice(ttt)
+        if chance == 1:
+            await ctx.send(f'Common Event time!!\npls type `{tttc}`')
+            amount = random.randrange(10, 100)
+        elif chance == 10:
+            await ctx.send(f'Uncommon Event time!!\npls type `{tttc}`')
+            amount = random.randrange(50, 200)
+        elif chance == 20:
+            await ctx.send(f'Rare Event time!!\npls type `{tttc}`')
+            amount = random.randrange(100, 500)
+        elif chance == 30:
+            await ctx.send(f'Legendary Event time!!\npls type `{tttc}`')
+            amount = random.randrange(500, 2000)
+        elif chance == 40:
+            await ctx.send(f'Mythic Event time!!\npls type `{tttc}`')
+            amount = random.randrange(1000, 5000)
+        else:
+            return
+
+        def check(msg):
+            return msg.content == tttc
+
+        msg = await self.wait_for('message', check=check)
+        if msg:
+            await db.save(msg.author, 'wallet', amount)
+            await ctx.send(
+                f'Congrats {msg.author.mention}!, you got {amount} dollars')
+        else:
+            await ctx.send('Too bad :(, nothing for you')
+    
+    async def on_slash_command(self, ctx):
         chance = random.randrange(0, 40)
         ttt = [
             'hi, im dumb', 'jkdvbekjcnejcbne', 'blah blah blah', 'blabity blab',
