@@ -30,7 +30,7 @@ class database:
                 'log_channel': None,
                 'warn_infringments': 1,
                 'warn_role': None,
-                'lvl_ msgs': True ,
+                'lvl_msgs': True ,
                 'welcome_msgs': True
             })
             return False
