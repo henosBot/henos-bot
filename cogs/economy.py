@@ -73,8 +73,7 @@ class Economy(commands.Cog):
     )
     async def deposit(self, ctx, amount):
         wallet = await db.get(ctx.author, 'wallet')
-        bank = await db.get(ctx.author, 'bank')
-        amount = amount if amount != 'all' else wallet
+        amount: int = amount if amount != 'all' else wallet
         if amount >= wallet:
             await db.save(ctx.author, 'bank', amount)
             await db.remove(ctx.author, 'wallet', amount)
@@ -94,9 +93,8 @@ class Economy(commands.Cog):
         )]
     )
     async def withdraw(self, ctx, amount):
-        wallet = await db.get(ctx.author, 'wallet')
         bank = await db.get(ctx.author, 'bank')
-        amount = amount if amount != 'all' else bank
+        amount: int = amount if amount != 'all' else bank
         if amount >= bank:
             await db.save(ctx.author, 'wallet', amount)
             await db.remove(ctx.author, 'bank', amount)
