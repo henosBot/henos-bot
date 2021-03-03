@@ -8,6 +8,8 @@ import tools
 import faker
 from phone_gen import PhoneNumber
 import sr_api
+from discord_slash import cog_ext
+from discord_slash.utils import manage_commands
 
 class fun(commands.Cog):
     def __init__(self, bot):
@@ -16,7 +18,10 @@ class fun(commands.Cog):
         self.srapi = sr_api.Client()
 
     # stuff
-    @commands.command()
+    @cog_ext.cog_slash(
+        name='invite',
+        description='shows the bot\'s invite'
+    )
     async def invite(self, ctx):
         embed = discord.Embed(
             title='Invites:',
@@ -25,7 +30,30 @@ class fun(commands.Cog):
         await ctx.send(embed=embed)
 
     # fun
-    @commands.command()
+    @cog_ext.cog_slash(
+        name='poll',
+        description='creates a poll'
+        options=[
+            manage_commands.create_option(
+                name='reaction1',
+                description='the first reaction',
+                option_type=0,
+                required=True
+            ),
+            manage_commands.create_option(
+                name='reaction2',
+                description='the second reaction',
+                option_type=0,
+                required=True
+            ),
+            manage_commands.create_option(
+                name='poll',
+                description='the poll',
+                option_type=0,
+                required=True
+            ),
+        ]
+    )
     async def poll(self, ctx, r1, r2, *, pollctx):
         embed = discord.Embed(
             title="__Poll!__",
@@ -40,7 +68,9 @@ class fun(commands.Cog):
         await message.add_reaction(r1)
         await message.add_reaction(r2)
 
-    @commands.command()
+    @cog_ext.cog_slash(
+        name
+    )
     async def hack(self, ctx, user: discord.Member):
         ends = [
             'gmail.com', 'hotmail.com', 'outlook.com', 'optusnet.net',
